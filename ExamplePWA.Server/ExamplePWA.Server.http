@@ -1,0 +1,6 @@
+@ExamplePWA.Server_HostAddress = http://localhost:5037
+
+GET {{ExamplePWA.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
