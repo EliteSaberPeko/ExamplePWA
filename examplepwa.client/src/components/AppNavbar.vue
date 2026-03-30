@@ -24,6 +24,17 @@
             >
                 Погода
             </button>
+            <button
+                @click="() => router.push({ name: 'messages' })"
+                @click.middle="() => linkByName('messages')"
+                @mousedown.middle.prevent
+                style="cursor: pointer"
+            >
+                Сообщения
+            </button>
+        </div>
+        <div class="network-status">
+            <span :title="statusText">{{ statusIcon }}</span>
         </div>
     </div>
 </template>
@@ -31,9 +42,25 @@
 import { useRouter } from "vue-router";
 
 import useLinkRoute from "@/services/composables/useLinkRoute";
+import { useNetworkStatus } from "@/services/composables/useNetworkStatus";
+import { computed } from "vue";
 
 const router = useRouter();
 const { linkByName } = useLinkRoute();
+
+const { isOnline, hasConnection } = useNetworkStatus();
+
+const statusIcon = computed(() => {
+    if (!isOnline.value) return "📴";
+    if (!hasConnection.value) return "⚠️";
+    return "📶";
+});
+
+const statusText = computed(() => {
+    if (!isOnline.value) return "Нет сети";
+    if (!hasConnection.value) return "Сервер недоступен";
+    return "В сети";
+});
 </script>
 <style scoped>
 .logo {

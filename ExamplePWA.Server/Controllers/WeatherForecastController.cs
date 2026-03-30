@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ExamplePWA.Server.Controllers
 {
@@ -27,6 +29,33 @@ namespace ExamplePWA.Server.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("api/[controller]")]
+        public async Task<MessageViewModel> Post(MessageViewModel model)
+        {
+            if (model == null || model.Message == null)
+            {
+                Response.StatusCode = 400;
+                return new MessageViewModel();
+            }
+            await System.IO.File.AppendAllLinesAsync("wwwroot/message.txt", [model.Message], Encoding.UTF8);
+            Response.StatusCode = 201;
+            return model;
+        }
+
+        [HttpGet("api/[controller]/[action]")]
+        public async Task<IEnumerable<string>> Messages()
+        {
+            const string path = "wwwroot/message.txt";
+            var isExist = System.IO.File.Exists(path);
+            var messages = isExist ? await System.IO.File.ReadAllLinesAsync(path, Encoding.UTF8) : [];
+            return messages;
+        }
+
+        public class MessageViewModel
+        {
+            public string Message { get; set; } = string.Empty;
         }
     }
 }

@@ -29,6 +29,14 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path: "/messages",
+        component: () => import("@/pages/MessagesPage.vue"),
+        name: "messages",
+        meta: {
+            title: "Страница сообщений",
+        },
+    },
+    {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: MainPage,

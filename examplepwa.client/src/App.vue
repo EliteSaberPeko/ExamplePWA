@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppNavbar from "./components/AppNavbar.vue";
+import PWAUpdatePrompt from "./components/PWAUpdatePrompt.vue";
 // import HelloWorld from "./components/HelloWorld.vue";
 // import TheWelcome from './components/TheWelcome.vue'
 </script>
@@ -18,6 +19,7 @@ import AppNavbar from "./components/AppNavbar.vue";
   </main> -->
     <AppNavbar />
     <RouterView :key="$route.fullPath" />
+    <PWAUpdatePrompt />
 </template>
 
 <style scoped>
